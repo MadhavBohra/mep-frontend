@@ -19,10 +19,6 @@ import Modal from '../components/Modal/Modal';
 import { useRouter } from 'next/navigation';
 import { getToken } from '../services/auth';
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5bde4c7 (LogIn, SignUp and Headers Button changes)
 interface UserData {
   name: string;
   age: number;

@@ -1,30 +1,5 @@
 'use client';
 
-<<<<<<< HEAD
-import React from 'react';
-import Link from 'next/link';
-import './Header.css';
-import { useState, useEffect } from 'react';
-
-import LogInForm from '../LogIn/LogInForm';
-
-import { getToken } from '../../services/auth';
-
-
-
-
-
-
-const Header: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-
-  // using Hooks
-  // showLogin is the variable that holds the current state value
-  // setShowLogin is the function that updates value of showLogin
-  const [showLogin, setShowLogin] = useState(false);
-
-=======
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import './Header.css';
@@ -38,7 +13,6 @@ const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
->>>>>>> 5bde4c7 (LogIn, SignUp and Headers Button changes)
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
@@ -48,35 +22,6 @@ const Header: React.FC = () => {
     if (!token) {
       setIsAuthenticated(false);
     } else {
-<<<<<<< HEAD
-      setIsCheckingAuth(false); // Allow rendering if token exists
-      setIsAuthenticated(true);
-    }
-  });
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  // when Login Button is clicked
-  const handleLoginClick = () => {
-    setShowLogin(true);
-  };
-
-  // when CloseLogin function is called
-=======
       setIsAuthenticated(true);
     }
     setIsCheckingAuth(false); // Moved out of condition to ensure it's set in both cases
@@ -101,13 +46,10 @@ const Header: React.FC = () => {
     setShowLogin(false); // Close the login form if it's open
   };
 
->>>>>>> 5bde4c7 (LogIn, SignUp and Headers Button changes)
   const handleCloseLogin = () => {
     setShowLogin(false);
   };
 
-<<<<<<< HEAD
-=======
   const handleCloseSignUp = () => {
     setShowSignUp(false);
   };
@@ -127,7 +69,6 @@ const Header: React.FC = () => {
     }
   };
 
->>>>>>> 5bde4c7 (LogIn, SignUp and Headers Button changes)
   return (
     <div className='header-container'>
       <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
@@ -148,43 +89,16 @@ const Header: React.FC = () => {
           <img className="icon" src="/search.png" alt="Search" />
         </nav>
         <div className="icons">
-          {!isCheckingAuth && (
-            !isAuthenticated ? (
-              <>
-<<<<<<< HEAD
-                <button className='signup'>SignUp</button>
-                <button className='login' onClick={handleLoginClick}>Login</button>
-=======
                 <button className='signup' onClick={handleSignUpClick}>Sign Up</button>
                 <button className='login' onClick={handleLoginClick}>Log In</button>
->>>>>>> 5bde4c7 (LogIn, SignUp and Headers Button changes)
-              </>
-            ) : (
-              <>
                 <img className="bell" src="/bell.png" alt="Notifications" />
                 <Link href='/UserDashboard'><img className="avatar" src="/avataricon.png" alt="User Avatar" /></Link>
-              </>
-            )
-          )}
-<<<<<<< HEAD
-
-
-
         </div>
       </header>
-      {showLogin && <LogInForm onClose={handleCloseLogin} />}
-    </div>
-
-
-
-=======
-        </div>
-      </header>
-      {showLogin && <LogInForm onClose={handleCloseLogin} />}
-      {showSignUp && <SignUpForm onClose={handleCloseSignUp} onSignUpComplete={handleSignUpComplete} />}
+      <LogInForm onClose={handleCloseLogin} />
+      <SignUpForm onClose={handleCloseSignUp} onSignUpComplete={handleSignUpComplete} />
 
     </div>
->>>>>>> 5bde4c7 (LogIn, SignUp and Headers Button changes)
   );
 };
 

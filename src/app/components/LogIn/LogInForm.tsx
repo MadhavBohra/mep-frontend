@@ -157,8 +157,4 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   );
 };
 
-<<<<<<< HEAD
 export default LogInForm;
-=======
-export default LogInForm;
->>>>>>> 5bde4c7 (LogIn, SignUp and Headers Button changes)
