@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "5d2c4047-2ebf-447a-b1f0-376a3745a981",
+		"name": "Global",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37707391"
+	},
+	"item": [
+		{
+			"name": "SignUp Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"testuser\",\r\n    \"email\" : \"testuser@gmail.com\",\r\n    \"password\" : \"test12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mep-backend.onrender.com/auth/signup",
+					"protocol": "https",
+					"host": [
+						"mep-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LogIn Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"testuser@gmail.com\",\r\n    \"password\": \"test12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mep-backend.onrender.com/auth/login",
+					"protocol": "https",
+					"host": [
+						"mep-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Token Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\" : \"f1d9297d-d7aa-4566-8e83-89666f73becd\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mep-backend.onrender.com/auth/refresh",
+					"protocol": "https",
+					"host": [
+						"mep-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mep-backend.onrender.com/",
+					"protocol": "https",
+					"host": [
+						"mep-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
