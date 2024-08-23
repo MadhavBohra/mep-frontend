@@ -3,19 +3,18 @@
 import styles from './Caloriecounter.module.css';
 
 interface CalorieCounterProps {
-  name: string;
   calories: string;
 }
 
-const CalorieCounter: React.FC<CalorieCounterProps> = ({ name, calories }) => {
+const CalorieCounter: React.FC<CalorieCounterProps> = ({calories}) => {
   return (
     <div className={styles.card} >
       <div className={styles.imageContainer}>
         <img src="/UserDashboard/CalorieBurn.png" alt="Meditation" className={styles.image} />
       </div>
       <div className={styles.textContainer}>
-      <h2 className={styles.calorie}>{calories}kcal</h2>
-      <h2 className={styles.greeting}>{name}</h2>
+      <p className={styles.calorie}>{calories}<span className={styles.cal}> kcal</span></p>
+      <p className={styles.message}>Calories burned</p>
       </div>
       
     </div>

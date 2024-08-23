@@ -1,65 +1,52 @@
 .card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #BDCFC666;
-    padding: 1.5vh;
-    margin:0;
-    border-radius: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    width: 10vw;
-    height:10vh;
-  }
-  
-  .textContainer {
-    max-width: 60%;
-  }
-  
-  .water {
-    font-family: 'Lufga', sans-serif;
-    font-weight: 600;
-    font-size: 1.5vh;
-    line-height: 1.75vh;
-    margin: 0;
-  }
-  .greeting {
-    font-family: 'Lufga', sans-serif;
-    font-weight: 200;
-    font-size: 1.5vh;
-    line-height: 1.75vh;
-    margin: 0;
-  }
-  .username {
-    font-weight: 700;
-  }
-  
-  .message {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    font-size: 1.5vh;
-    line-height: 1.5vh;
-  }
-  
-  .link {
-    color: #000;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 1.5vh;
-    line-height: 1.5vh;
-  }
-  
-  .link:hover {
-    text-decoration: underline;
-  }
-  
-  .imageContainer {
-    max-width: 90%;
-  }
-  
-  .image {
-    max-width: 90%;
-    height: auto;
-    border-radius: 80px;
-  }
-  
+  display: flex;
+
+  align-items: center;
+  background-color: #BDCFC666;
+  margin:0;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  width: 100%;
+  height: 30%;
+  margin-left: 10px;
+  margin-top: 40px;
+
+}
+
+.textContainer {
+  max-width: 100%;
+  margin-left: 10px;
+}
+
+.water {
+  font-family: 'Lufga', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  margin: 0;
+}
+
+.watertext{
+  font-weight: 200;
+}
+
+.message {
+  font-family: 'Lufga', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+
+.imageContainer {
+  max-width: 90%;
+  margin-left: 20%;
+}
+
+.image {
+  max-width: 90%;
+  height: auto;
+  border-radius: 80px;
+}
+
+

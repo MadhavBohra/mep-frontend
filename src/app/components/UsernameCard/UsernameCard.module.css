@@ -3,45 +3,46 @@
     justify-content: space-between;
     align-items: center;
     background-color: #BDCFC666;
-    padding: 1.5vh;
-    margin: 1.5vh;
-    margin-left:0;
     border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    width: 40vw;
-    height:14vh;
+    width: 90%;
+    height:170px;
+    margin-top: 15px;
+    margin-left: 10px;
   }
   
   .textContainer {
     max-width: 60%;
+    color: #254336;
   }
   
   .greeting {
-    font-family: 'Lufga', sans-serif;
+    font-family: 'Lufga';
     font-weight: 400;
-    font-size: 1.5vh;
-    line-height: 1.75vh;
-    margin: 0;
+    font-size: 24px;
+    margin-left: 20px;
+    margin-top: -10px;
   }
   
   .username {
-    font-weight: 700;
+    font-weight: 600;
   }
   
   .message {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Lufga';
     font-weight: 400;
     font-size: 1.5vh;
-    line-height: 1.5vh;
+    margin-left: 20px;
   }
   
   .link {
     color: #000;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Lufga';
     font-weight: 600;
-    font-size: 1.5vh;
-    line-height: 1.5vh;
+    font-size: 16px;
+    margin-left: 20px;
+    text-decoration: none;
+
   }
   
   .link:hover {

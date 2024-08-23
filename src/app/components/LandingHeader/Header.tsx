@@ -6,7 +6,7 @@ import './Header.css';
 
 import LogInForm from '../LogIn/LogInForm';
 import SignUpForm from '@/app/SignUp/SignUpForm';
-import { getToken } from '../../services/auth';
+import { clearTokens, getToken } from '../../services/auth';
 import { signUp } from '../../services/api'; // Import the API utility function
 
 const Header: React.FC = () => {
@@ -15,16 +15,12 @@ const Header: React.FC = () => {
   const [showSignUp, setShowSignUp] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const token = getToken();
-
-    if (!token) {
-      setIsAuthenticated(false);
-    } else {
-      setIsAuthenticated(true);
-    }
-    setIsCheckingAuth(false); // Moved out of condition to ensure it's set in both cases
+    setIsAuthenticated(!!token); // Simplified to directly set the state based on token presence
+    setIsCheckingAuth(false);
   }, []);
 
   useEffect(() => {
@@ -38,12 +34,12 @@ const Header: React.FC = () => {
 
   const handleLoginClick = () => {
     setShowLogin(true);
-    setShowSignUp(false); // Close the signup form if it's open
+    setShowSignUp(false);
   };
 
   const handleSignUpClick = () => {
     setShowSignUp(true);
-    setShowLogin(false); // Close the login form if it's open
+    setShowLogin(false);
   };
 
   const handleCloseLogin = () => {
@@ -54,14 +50,14 @@ const Header: React.FC = () => {
     setShowSignUp(false);
   };
 
+
+
   const handleSignUpComplete = async (userData: { email: string; username: string; password: string }) => {
     try {
       const result = await signUp(userData);
       if (result && result.id) {
-        // Redirect to the dashboard page
         window.location.href = '/UserDashboard';
       } else {
-        // Handle error case if `result.id` is not available
         console.error('Sign up failed: No user ID returned');
       }
     } catch (error) {
@@ -69,35 +65,71 @@ const Header: React.FC = () => {
     }
   };
 
+
+
+// Drop Downs :
+const handleToggle = () => setIsOpen(!isOpen);
+
+  const handleProfile = () => {
+    window.location.href = '/UserProfile'; // Navigate to the profile page
+    setIsOpen(false);
+  };
+
+  const handleLogout = () => {
+    // Add your logout logic here
+    console.log('Logging out...');
+    window.location.href = '/LandingPage';
+    clearTokens();
+    setIsOpen(false);
+  };
+
   return (
     <div className='header-container'>
       <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="logo">
-          <a href='/LandingPage'><img src="/logo.png" alt="Logo" /></a>
+          <Link href='/LandingPage'><img src="/logo.png" alt="Logo" /></Link>
         </div>
         <nav className="nav-links">
-          <a href='/LandingPage'>Home</a>
+          <Link href='/LandingPage'>Home</Link>
           <span>/</span>
-          <a href="/AboutUs">About Us</a>
+          <Link href="/AboutUs">About Us</Link>
           <span>/</span>
-          <a href="/Blogs">Blogs</a>
+          <Link href="/Blogs">Blogs</Link>
           <span>/</span>
-          <a href="/FAQs">FAQs</a>
+          <Link href="/FAQs">FAQs</Link>
           <span>/</span>
-          <a href="/ContactUs">Contact</a>
+          <Link href="/ContactUs">Contact</Link>
           <span>/</span>
-          <img className="icon" src="/search.png" alt="Search" />
+          <img className="icon" src="/search.png" alt="Search" style={{width:"24px"}}/>
         </nav>
         <div className="icons">
+          {!isCheckingAuth && (
+            !isAuthenticated ? (
+              <>
                 <button className='signup' onClick={handleSignUpClick}>Sign Up</button>
                 <button className='login' onClick={handleLoginClick}>Log In</button>
-                <img className="bell" src="/bell.png" alt="Notifications" />
-                <Link href='/UserDashboard'><img className="avatar" src="/avataricon.png" alt="User Avatar" /></Link>
+              </>
+            ) : (
+              <>
+                <img className="bell" src="/Bell.png" alt="Notifications" />
+                <img className="avatar" src="/avataricon.png" alt="User Avatar" onClick={handleToggle}/>
+                {isOpen && (
+                  <div className="dropdownMenu">
+                    <button onClick={handleProfile} className="dropdownItem">
+                      Profile
+                    </button>
+                    <button onClick={handleLogout} className="dropdownItem">
+                      Log Out
+                    </button>
+                  </div>
+                )}
+              </>
+            )
+          )}
         </div>
       </header>
-      <LogInForm onClose={handleCloseLogin} />
-      <SignUpForm onClose={handleCloseSignUp} onSignUpComplete={handleSignUpComplete} />
-
+      {showLogin && <LogInForm onClose={handleCloseLogin} />}
+      {showSignUp && <SignUpForm onClose={handleCloseSignUp} onSignUpComplete={handleSignUpComplete} />}
     </div>
   );
 };

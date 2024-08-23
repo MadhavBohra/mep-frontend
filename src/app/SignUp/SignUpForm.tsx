@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import './SignUpForm.css';
+import { setToken } from '../services/auth';
 
-// Define the type for the sign-up data
 type SignUpData = {
   email: string;
   username: string;
@@ -22,23 +22,20 @@ const SignUpForm: React.FC<{ onClose?: () => void; onSignUpComplete?: (data: Sig
 
   const router = useRouter();
 
-  const validateForm = () => {
+  useEffect(() => {
     setFormValid(email.length > 0 && username.length > 0 && password.length > 0);
-  };
+  }, [email, username, password]);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    validateForm();
   };
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
-    validateForm();
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    validateForm();
   };
 
   const toggleShowPassword = () => {
@@ -49,7 +46,7 @@ const SignUpForm: React.FC<{ onClose?: () => void; onSignUpComplete?: (data: Sig
     e.preventDefault();
 
     try {
-      const response = await fetch('https://mep-backend.onrender.com/auth/signup', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,15 +58,16 @@ const SignUpForm: React.FC<{ onClose?: () => void; onSignUpComplete?: (data: Sig
         throw new Error(`Sign up failed: ${response.statusText}`);
       }
 
-      const result = await response.json();
+      const data = await response.json();
+      const authToken = data.accessToken; // or whatever the key is in your response
+      const refreshToken = data.refreshToken; // or whatever the key is in your response
+      console.log(authToken);
+      setToken(authToken,refreshToken);
 
-      // Store token if applicable (e.g., localStorage)
-      // localStorage.setItem('token', result.token);
-
-      if (onSignUpComplete) onSignUpComplete(result);
+      if (onSignUpComplete) onSignUpComplete(data);
 
       // Redirect to UserDashboard
-      router.replace('/UserDashboard');
+      router.push('/UserDashboard');
 
       if (onClose) onClose();
     } catch (error) {
@@ -93,6 +91,8 @@ const SignUpForm: React.FC<{ onClose?: () => void; onSignUpComplete?: (data: Sig
           </div>
           <img src='/logo.png' alt="Logo" className='logo' />
         </div>
+
+        {error && <div className="error">{error}</div>}
 
         <form onSubmit={handleSubmit} className="signup-form">
           <label>Email</label>

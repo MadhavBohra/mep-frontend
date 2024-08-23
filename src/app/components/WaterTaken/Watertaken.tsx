@@ -3,19 +3,18 @@
 import styles from './Watertaken.module.css';
 
 interface WatertakenProps {
-  name: string;
   water: string;
 }
 
-const Watertaken: React.FC<WatertakenProps> = ({ name, water }) => {
+const Watertaken: React.FC<WatertakenProps> = ({water}) => {
   return (
     <div className={styles.card} >
       <div className={styles.imageContainer}>
         <img src="/UserDashboard/Watertaken.png" alt="Meditation" className={styles.image} />
       </div>
       <div className={styles.textContainer}>
-      <h2 className={styles.water}>{water}litres</h2>
-      <h2 className={styles.greeting}>{name}</h2>
+      <p className={styles.water}>{water}<span className={styles.watertext}> litres</span></p>
+      <p className={styles.message}>Water taken</p>
       </div>
       
     </div>

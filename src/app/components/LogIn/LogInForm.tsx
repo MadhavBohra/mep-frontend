@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import './LogInForm.css';
-import { setToken } from '../../services/auth';
+import { clearTokens, setToken } from '../../services/auth';
 
 const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [username, setUsername] = useState('');
@@ -12,7 +12,6 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [formValid, setFormValid] = useState(false);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   const formContainerRef = useRef<HTMLDivElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -56,33 +55,53 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     try {
-      // const response = await fetch('https://example.com/api/login', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ username, password }),
-      // });
+      clearTokens();
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: username, password }),
+      });
+  
+      const data = await response.json();
+      if (!response.ok) {
+        console.log(data);
+        throw new Error(data.message || 'Invalid email or password');
+      }
 
-      // if (!response.ok) {
-      //   throw new Error('Invalid username or password');
+      const authToken = data.accessToken; // or whatever the key is in your response
+      const refreshToken = data.refreshToken; // or whatever the key is in your response
+      console.log(authToken);
+      setToken(authToken,refreshToken);
+  
+      // Check if user has a profile
+      const profileResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user-profile`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (profileResponse.ok) {
+        // User has a profile, redirect to dashboard
+        router.push('/UserDashboard');
+      } else {
+        // User does not have a profile, redirect to profile creation
+        router.push('/UserProfile');
+        console.log(response);
+        console.log(data);
+      }
+      // } else {
+      //   throw new Error('Failed to verify user profile');
       // }
-
-      // const data = await response.json();
-      // const token = data.token;
-
-      const token = "1234"; // Simulate a token
-      setToken(token);
-
-      // Redirect to dashboard after login
-      router.push('/UserDashboard');
     } catch (error: any) {
       setErrorMessage(error.message);
     }
   };
-
   return (
     <div className='loginContainer' onClick={(e) => {
       if (e.target === e.currentTarget) onClose();

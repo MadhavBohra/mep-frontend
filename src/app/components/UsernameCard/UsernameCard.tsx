@@ -14,7 +14,7 @@ const UsernameCard: React.FC<UsernameCardProps> = ({ name, message }) => {
         <h2 className={styles.greeting}>Hello <span className={styles.username}>{name}</span>,</h2>
         <p className={styles.message}>{message}</p>
         <a className={styles.link} href="#">
-          Learn More
+          Learn More &gt;
         </a>
       </div>
       <div className={styles.imageContainer}>

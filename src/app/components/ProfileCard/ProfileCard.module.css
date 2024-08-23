@@ -1,41 +1,60 @@
 .card {
     background-color: #BDCFC666;
     border-radius: 10px;
-    padding: 1.5vh;
-    width: 20vw;
-    height: 25vh;
-    margin-bottom: 1.25vh;
+
+    width: 100%;
+    height: 35%;
     text-align: center;
-    font-family: Arial, sans-serif;
+    font-family: "Lufga";
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    justify-content: center;
   }
   
   .avatar {
-    margin-bottom: 1vh;
+    padding-top: 2vh;
+
   }
+
+  .roundImage {
+    border-radius: 50%; /* Makes the image round */
+    object-fit: cover; /* Ensures the image covers the element's dimensions */
+  }
+  
   
   .name {
-    font-size: 1.5vh;
-    margin: 0;
+    font-size: 2.5vh;
+    font-weight: 400;
+    margin-bottom: 5px;
+    margin-top: 5px;
   }
   
-  .ageLocation {
+  .card p {
     color: #666;
-    font-size: 1vh;
-    margin-bottom: 1.5vh;
+    font-size: 1.5vh;
+    margin-bottom: 0.5vh;
+
   }
   
   .info {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    margin-top: 2.5vh;
   }
   
-  .infoItem {
-    font-size: 1.5vh;
-    margin-right: 0.5vh;
-  }
-  
+.infoItem{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
   .infoItem p:first-child {
-    font-size: 1.25vh;
+    font-size: 1.5vh;
     font-weight: bold;
+  }
+
+  .line{
+    width: 3px;
+    margin: 0px 30px 0px 30px;
+    background-color: #254336;
+
   }

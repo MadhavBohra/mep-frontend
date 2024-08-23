@@ -12,9 +12,10 @@ export default function RootLayout({
     <html lang="en">
       <head>
       <link rel="icon" href="/favicon.png" />
+      <link href="https://fonts.cdnfonts.com/css/lufga" rel="stylesheet"></link>
 
       </head>
-      <body>{children}</body>
+      <body style={{"overflow":"hidden"}}>{children}</body>
     </html>
   )
 }

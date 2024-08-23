@@ -139,3 +139,28 @@
   color: #254336;
   /* Text color on hover */
 }
+
+.dropdownMenu {
+  position: absolute;
+  top: 90%;
+  right: 0;
+  background-color: white;
+  border: 2px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.dropdownItem {
+  display: block;
+  padding: 10px 20px;
+  text-align: left;
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background-color: #f0f0f0;
+}

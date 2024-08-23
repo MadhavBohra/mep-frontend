@@ -13,7 +13,7 @@ interface ReminderProps {
 const Reminder: React.FC<ReminderProps> = ({ dur1, ex1, dur2, ex2 }) => {
   return (
     <div className={styles.card}>
-      <h2 className={styles.heading}>Reminders</h2>
+      <p className={styles.heading}>Reminders</p>
       <div className={styles.remindersContainer}>
         <div className={styles.reminderItem}>
           <img src='/UserDashboard/Dumbell.png' alt='dumbell' className={styles.img} />

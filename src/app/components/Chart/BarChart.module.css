@@ -1,5 +1,23 @@
 .chartContainer {
-  width: 30vw; /* Set the width as a percentage of the viewport width */
-  height: 40vh; /* Set the height as a percentage of the viewport height */
-  margin: 0 auto; /* Center the chart */
+  background-color: #BDCFC64D;
+  margin-left: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: 100%;
+  font-family: 'Lufga';
+}
+
+.chartContainer p {
+  font-size: 30px;
+  font-weight: 600;
+  padding: 20px;
+  color: #333;
+}
+
+.legendIcon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%; /* Makes the icon a circle */
+  display: inline-block;
+  margin-right: 8px; /* Space between icon and label */
 }
