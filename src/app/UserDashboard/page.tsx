@@ -35,7 +35,7 @@ interface UserData {
 
 const fetchUserData = async (authToken: string): Promise<UserData | null> => {
   try {
-    const profileResponse = await fetch('http://localhost:8000/user-profile', {
+    const profileResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user-profile`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${authToken}`,

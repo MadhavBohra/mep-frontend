@@ -108,7 +108,7 @@
   left: 1245px;
   gap: 0px;
   border-radius: 25px ;
-  opacity: 0px;
+  opacity: 100;
 }
 
 .signup:hover {
@@ -129,7 +129,7 @@
   left: 1245px;
   gap: 0px;
   border-radius: 25px ;
-  opacity: 0px;
+  opacity: 100;
 
 }
 
