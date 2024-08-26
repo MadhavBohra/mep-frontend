@@ -16,14 +16,14 @@ interface UserData {
     bloodGroup: string;
     height: string;
     weight: string;
-    profilePhoto: string | null; // Adjust to match the profile photo URL
+    profilePhoto: string | File | null;
 }
 
 export default function UserProfile() {
     const router = useRouter();
     const [formData, setFormData] = useState<UserData>({
-        username:'',
-        email:'',
+        username: '',
+        email: '',
         firstName: '',
         lastName: '',
         dob: '',
@@ -31,7 +31,7 @@ export default function UserProfile() {
         bloodGroup: '',
         height: '',
         weight: '',
-        profilePhoto: null,
+        profilePhoto: '',
     });
     const [loading, setLoading] = useState(true);
 
@@ -56,10 +56,9 @@ export default function UserProfile() {
                     const data = await response.json();
                     setFormData(data);
                 } else if (response.status === 404) {
-                    // Redirect to a blank page or handle accordingly
                     setFormData({
-                        username:'',
-                        email:'',
+                        username: '',
+                        email: '',
                         firstName: '',
                         lastName: '',
                         dob: '',
@@ -67,7 +66,7 @@ export default function UserProfile() {
                         bloodGroup: '',
                         height: '',
                         weight: '',
-                        profilePhoto: null,
+                        profilePhoto: ''
                     });
                 } else {
                     throw new Error('Failed to fetch profile data');
@@ -91,37 +90,52 @@ export default function UserProfile() {
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setFormData({
-                ...formData,
-                profilePhoto: URL.createObjectURL(e.target.files[0]),
-            });
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            if (file.type.startsWith('image/')) {
+                setFormData({
+                    ...formData,
+                    profilePhoto: file,
+                });
+            } else {
+                alert('Please select an image file.');
+            }
         }
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+    
+        const token = getToken();
+    
+        // Prepare JSON data, ensuring all fields are included, even with null values
+        const jsonData = {
+            firstName: formData.firstName || null,
+            lastName: formData.lastName || null,
+            dob: formData.dob || null,
+            address: formData.address || null,
+            bloodGroup: formData.bloodGroup || null,
+            height: formData.height || null,
+            weight: formData.weight || null,
+            profilePhoto:  null,
+        };
 
-        const token = getToken(); // Replace with the actual token you retrieve from auth.
-        const formDataToSend = new FormData();
-        Object.keys(formData).forEach(key => {
-            formDataToSend.append(key, formData[key as keyof typeof formData] as string | Blob);
-        });
-
+        console.log(jsonData);
+    
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user-profile`, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
                 },
-                body: formDataToSend,
+                body: JSON.stringify(jsonData),
             });
-
+    
             if (!response.ok) {
                 throw new Error('Failed to update profile');
             }
-
-            // Handle success
+    
             alert('Profile updated successfully');
             router.push('/UserDashboard');
         } catch (error) {
@@ -131,7 +145,7 @@ export default function UserProfile() {
     };
 
     if (loading) {
-        return <div>Loading...</div>; // Show loading state while fetching data
+        return <div>Loading...</div>;
     }
 
     return (
@@ -141,7 +155,7 @@ export default function UserProfile() {
                 <div className="profile-container">
                     <div className="profile-sidebar">
                         <img
-                            src={formData.profilePhoto || '/Default_pfp.svg.png'}
+                            src={typeof formData.profilePhoto === 'string' ? formData.profilePhoto : '/Default_pfp.svg.png'}
                             alt="Profile Picture"
                             className="profile-picture"
                         />

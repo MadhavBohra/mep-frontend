@@ -15,7 +15,7 @@ export default function RootLayout({
       <link href="https://fonts.cdnfonts.com/css/lufga" rel="stylesheet"></link>
 
       </head>
-      <body style={{"overflow":"hidden"}}>{children}</body>
+      <body>{children}</body>
     </html>
   )
 }

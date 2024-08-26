@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -10,12 +8,24 @@ type SignUpData = {
   email: string;
   username: string;
   password: string;
+  firstName: string;
+  lastName: string;
+  dob: string;
+  address: string;
 };
 
 const SignUpForm: React.FC<{ onClose?: () => void; onSignUpComplete?: (data: SignUpData) => void }> = ({ onClose, onSignUpComplete }) => {
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState<SignUpData>({
+    email: '',
+    username: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    dob: '',
+    address: ''
+  });
+
   const [showPassword, setShowPassword] = useState(false);
   const [formValid, setFormValid] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,27 +33,40 @@ const SignUpForm: React.FC<{ onClose?: () => void; onSignUpComplete?: (data: Sig
   const router = useRouter();
 
   useEffect(() => {
-    setFormValid(email.length > 0 && username.length > 0 && password.length > 0);
-  }, [email, username, password]);
+    if (step === 1) {
+      setFormValid(formData.email.length > 0 && formData.username.length > 0 && formData.password.length > 0);
+    } else if (step === 2) {
+      setFormValid(formData.firstName.length > 0 && formData.dob.length > 0 && formData.address.length > 0);
+    }
+  }, [formData, step]);
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleNext = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setStep(2);
+  };
+
+  const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setStep(1);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const {firstName, lastName, dob, address} = formData;
+    const { email, username, password } = formData;
+    const dataToSend = { email, username, password };
+    const dataToSendProfile = {firstName, lastName, dob, address};
+
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signup`, {
@@ -51,22 +74,37 @@ const SignUpForm: React.FC<{ onClose?: () => void; onSignUpComplete?: (data: Sig
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, username, password }),
+        body: JSON.stringify(dataToSend),
       });
 
       if (!response.ok) {
         throw new Error(`Sign up failed: ${response.statusText}`);
       }
 
+
+
       const data = await response.json();
-      const authToken = data.accessToken; // or whatever the key is in your response
-      const refreshToken = data.refreshToken; // or whatever the key is in your response
-      console.log(authToken);
-      setToken(authToken,refreshToken);
+      const authToken = data.accessToken;
+      const refreshToken = data.refreshToken;
+      setToken(authToken, refreshToken);
 
       if (onSignUpComplete) onSignUpComplete(data);
 
-      // Redirect to UserDashboard
+
+      const profileresponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user-profile`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSendProfile),
+      });
+
+      if (!profileresponse.ok) {
+        throw new Error(`Sign up failed: ${profileresponse.statusText}`);
+      }
+
+
       router.push('/UserDashboard');
 
       if (onClose) onClose();
@@ -77,81 +115,117 @@ const SignUpForm: React.FC<{ onClose?: () => void; onSignUpComplete?: (data: Sig
   };
 
   return (
-    <div
-      className="signup-container"
-      onClick={(e) => {
-        if (e.target === e.currentTarget && onClose) onClose();
-      }}
-    >
-      <div className="formContainer">
-        <div className="container">
-          <div>
-            <h1>Welcome to MyEasyPharma</h1>
-            <p>Already have an account? <Link href="/LogIn"><span>Log in</span></Link></p>
-          </div>
-          <img src='/logo.png' alt="Logo" className='logo' />
-        </div>
-
-        {error && <div className="error">{error}</div>}
-
-        <form onSubmit={handleSubmit} className="signup-form">
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={handleEmailChange}
-            required
-          />
-          <label>Username</label>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={handleUsernameChange}
-            required
-          />
-          <label>
-            Password
-            <div className="password-toggle">
-              <img
-                src='/eye.png'
-                alt={showPassword ? 'Hide' : 'Show'}
-                className='eyeIcon'
-                onClick={toggleShowPassword}
-              />
-              <span onClick={toggleShowPassword}>{showPassword ? 'Hide' : 'Show'}</span>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <div className="signup-container">
+        <div className="formContainer">
+          <div className="container">
+            <div>
+              <h1>Welcome to MyEasyPharma</h1>
+              <p>Already have an account? <Link href="/LogIn"><span>Log in</span></Link></p>
             </div>
-          </label>
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            value={password}
-            onChange={handlePasswordChange}
-            required
-          />
-          <div className="password-criteria">
-            <li>Use 8 or more characters</li>
-            <li>One Uppercase character</li>
-            <li>One lowercase character</li>
-            <li>One special character</li>
-            <li>One number</li>
+            <img src='/logo.png' alt="Logo" className='logo' />
           </div>
 
-          <div className="checkbox-container">
-            <input type="checkbox" id="marketing"/>
-            <p>I want to receive emails about the product, feature updates, events, and marketing promotions</p>
-          </div>
+          {error && <div className="error">{error}</div>}
 
-          <div className="terms">
-            <p>By creating an account, you agree to the <Link href="#"><span>Terms of use</span></Link> and <Link href="#"><span>Privacy Policy</span></Link>.</p>
-          </div>
+          {step === 1 && (
+            <>
+              <label>Email</label>
+              <input
 
-          <button type="submit" className="signup-btn" disabled={!formValid}>Create an account</button>
-        </form>
-      </div>
-      <div className="imageContainer">
-        <img src="/GreenBGRight.png" alt="Side Background" />
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+              <label>Username</label>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
+              <label>
+                Password
+                <div className="password-toggle">
+                  <img
+                    src='/eye.png'
+                    alt={showPassword ? 'Hide' : 'Show'}
+                    className='eyeIcon'
+                    onClick={toggleShowPassword}
+                  />
+                  <span onClick={toggleShowPassword}>{showPassword ? 'Hide' : 'Show'}</span>
+                </div>
+              </label>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              <div className="password-criteria">
+                <li>Use 8 or more characters</li>
+                <li>One Uppercase character</li>
+                <li>One lowercase character</li>
+                <li>One special character</li>
+                <li>One number</li>
+              </div>
+              <button type="button" className="signup-btn" disabled={!formValid} onClick={handleNext}>Next</button>
+            </>
+          )}
+
+          {step === 2 && (
+            <form onSubmit={handleSubmit} className="signup-form">
+              <label>First Name</label>
+              <input
+
+                name="firstName"
+                placeholder="Name"
+                value={formData.firstName}
+                onChange={handleChange}
+                required
+              />
+              <label>Last Name</label>
+              <input
+                name="lastName"
+                placeholder="Name"
+                value={formData.lastName}
+                onChange={handleChange}
+                required
+              />
+              <label>Date of Birth</label>
+              <input
+                type="date"
+                name="dob"
+                placeholder="Date of Birth"
+                value={formData.dob}
+                onChange={handleChange}
+                required
+              />
+              <label>Address</label>
+              <input
+                type="text"
+                name="address"
+                placeholder="Address"
+                value={formData.address}
+                onChange={handleChange}
+                required
+              />
+              <div className="button-group">
+                <button type="button" className="signup-btn" onClick={handleBack}>Back</button>
+                <button type="submit" className="signup-btn" disabled={!formValid}>Create an account</button>
+              </div>
+            </form>
+          )}
+        </div>
+        <div className="imageContainer">
+          <img src="/GreenBGRight.png" alt="Side Background" />
+        </div>
       </div>
     </div>
   );

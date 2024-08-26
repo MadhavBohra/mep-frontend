@@ -22,7 +22,7 @@
     justify-content: space-around;
     align-items: center;
     border-radius: 20px 0px 0px 20px;
-    margin-left: 80px;
+    margin-left: 20%;
 }
 
 .loginForm {
@@ -98,9 +98,9 @@
 }
 
 .imageContainer {
-    width: 70%;
+
     /* Ensure the container takes up full width */
-    display: flex;
+
     /* Use flexbox to handle the content */
     justify-content: center;
     /* Center the image horizontally */
@@ -160,11 +160,25 @@ p {
     border-radius: 12px;
 }
 
+
+input {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+}
+
 .password-toggle {
     display: inline-block;
     cursor: pointer;
     color: #0070f3;
     font-size: 12px;
+    height: 12px;
+}
+
+.password-toggle img{
+    height: 12px;
 }
 
 .signup-form .password-criteria div{
