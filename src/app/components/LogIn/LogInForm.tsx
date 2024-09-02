@@ -3,8 +3,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import './LogInForm.css';
+// import './LogInForm.css';
 import { clearTokens, setToken } from '../../services/auth';
+import styles from './LogInForm.module.css'
 
 const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [username, setUsername] = useState('');
@@ -103,32 +104,32 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     }
   };
   return (
-    <div className='loginContainer' onClick={(e) => {
+    <div className={styles.loginContainer} onClick={(e) => {
       if (e.target === e.currentTarget) onClose();
     }}>
-      <div className='formContainer' ref={formContainerRef}>
-        <img src='/logo.png' alt="Logo" className='logo' />
+      <div className={styles.formContainer} ref={formContainerRef}>
+        <img src='/logo.png' alt="Logo" className={styles.logo} />
         <h2>Log In</h2>
         <h4>
           Don't have an account?{' '}
           <Link href="/SignUp">
-            <span className='signUp'>Sign Up</span>
+            <span className={styles.signUp}>Sign Up</span>
           </Link>
         </h4>
-        <div className='socialsContainer'>
-          <button type="button" className='googleBtn'>
-            <img src='/logos/google.svg' alt='google-icon' className='icon' /> Log in with Google
+        <div className={styles.socialsContainer}>
+          <button type="button" className={styles.googleBtn}>
+            <img src='/logos/google.svg' alt='google-icon' className={styles.icon} /> Log in with Google
           </button>
-          <button type="button" className='facebookBtn'>
-            <img src='/logos/facebook.svg' alt='facebook-icon' className='icon' /> Log in with Facebook
+          <button type="button" className={styles.facebookBtn}>
+            <img src='/logos/facebook.svg' alt='facebook-icon' className={styles.icon} /> Log in with Facebook
           </button>
         </div>
-        <div className='orSeparator'>
-          <span className='line'></span>
-          <span className='orText'>OR</span>
-          <span className='line'></span>
+        <div className={styles.orSeparator}>
+          <span className={styles.line}></span>
+          <span className={styles.orText}>OR</span>
+          <span className={styles.line}></span>
         </div>
-        <form onSubmit={handleSubmit} className='loginForm'>
+        <form onSubmit={handleSubmit} className={styles.loginForm}>
           <label>Username or Email</label>
           <input
             placeholder='Username'
@@ -144,13 +145,13 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               <img
                 src='/eye.png'
                 alt={showPassword ? 'Hide' : 'Show'}
-                className='eyeIcon'
+                className={styles.eyeIcon}
                 onClick={toggleShowPassword}
               />
               {showPassword ? 'Hide' : 'Show'}
             </div>
           </label>
-          <div className='passwordInput'>
+          <div className={styles.passwordInput}>
             <input
               placeholder='Password'
               type={showPassword ? 'text' : 'password'}
@@ -160,16 +161,16 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               required
             />
           </div>
-          {errorMessage && <p className='errorMessage'>{errorMessage}</p>}
+          {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
           <Link href="/forgot-password">
-            <span className='forgotPassword'>Forgot Password?</span>
+            <span className={styles.forgotPassword}>Forgot Password?</span>
           </Link>
-          <button type="submit" className='loginBtn' disabled={!formValid}>
+          <button type="submit" className={styles.loginBtn} disabled={!formValid}>
             Log in
           </button>
         </form>
       </div>
-      <div className='imageContainer' ref={imageContainerRef}>
+      <div className={styles.imageContainer} ref={imageContainerRef}>
         <img src='/GreenBGRight.png' alt="Side" />
       </div>
     </div>

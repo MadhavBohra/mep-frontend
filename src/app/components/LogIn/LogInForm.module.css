@@ -1,0 +1,196 @@
+.loginContainer {
+  z-index: 2000;
+  position: fixed;
+  display: flex;
+  font-family: 'Lufga', sans-serif;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.219);
+  justify-content: center;
+  align-items: center;
+  padding: 10px; /* Adds some padding to prevent the form from touching the screen edges */
+}
+
+.formContainer {
+
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 25px;
+  width: 50%;
+  height: 80%;
+  border-radius: 20px 0px 0px 20px;
+  /* max-width: 80vw;
+  height: 85vh; */
+
+}
+
+.imageContainer {
+  width: 40%;
+  height: 80%;
+  overflow: hidden;
+  border-radius: 0px 20px 20px 0px;
+}
+
+.logo {
+
+  width: 98px;
+  margin-top: 12px;
+}
+
+.formContainer h2 {
+  margin-bottom: 0;
+}
+
+.formContainer h4 {
+  margin-top: 0;
+}
+
+.socialsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.googleBtn, .facebookBtn {
+  width: 70%;
+  border-radius: 24px;
+  margin: 6px;
+  height: 40px;
+  background-color: white;
+  font-weight: 700;
+  border-width: 1px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  transition: background-color 0.3s;
+}
+
+.icon {
+  height: 16px;
+  width: 16px;
+  margin-right: 8px;
+}
+
+.googleBtn:hover, .facebookBtn:hover {
+  background-color: #254336;
+  cursor: pointer;
+  color: white;
+}
+
+.orSeparator {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.orSeparator .line {
+  flex: 1;
+  height: 0.5vh;
+  margin: 5px;
+  background-color: #ccc;
+}
+
+.loginForm {
+  color: grey;
+  font-weight: 600;
+  font-size: 12px;
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginForm label {
+
+  display: flex;
+  justify-content: space-between;
+  margin-left: 1vh;
+  text-align: left;
+  width: 100%;
+}
+
+.loginForm div {
+  display: flex;
+  justify-content: center;
+}
+
+.loginForm input {
+  height: 32px;
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  border-width: 1px;
+  margin: 1vh;
+}
+
+.loginForm img{
+  height: 2px;
+}
+
+.passwordInput{
+  width: 107%;
+}
+
+.passwordInput input{
+  height: 32px;
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  border-width: 1px;
+  margin: 1vh;
+}
+
+.forgotPassword {
+  color: black;
+  text-decoration: underline black;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  margin-top: 50px;
+}
+
+.loginBtn {
+  width: 60%;
+  border-radius: 24px;
+  margin: 6px;
+  margin-top: 20px;
+  height: 40px;
+  font-weight: 700;
+  border-width: 1px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  background-color: #8d8d8d;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.loginBtn:hover {
+  background-color: #254336;
+  cursor: pointer;
+  color: white;
+}
+
+@media (max-width: 908px) {
+  .imageContainer {
+    display: none; /* Hides the image container on smaller screens */
+  }
+  
+  .formContainer {
+    width: 90%; /* Adjusts the form width on smaller screens */
+    margin-left: 0; /* Centers the form */
+    border-radius: 20px; /* Adds a full border-radius on mobile */
+  }
+}

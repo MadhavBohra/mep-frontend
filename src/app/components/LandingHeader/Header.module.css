@@ -1,10 +1,18 @@
-.header-container {
+.headerContainer {
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  top:0;
+  left: 0;
   /* Ensure the container takes the full width */
 
+
+}
+
+.loggedInBtn{
+  display: none;
 }
 
 .header {
@@ -25,7 +33,8 @@
   height: 5vh;
   z-index: 1000;
   transition: background-color 0.3s ease;
-}
+ }
+
 
 .header.scrolled {
   background-color: #ffffffcc;
@@ -33,35 +42,36 @@
 }
 
 .logo img {
-  height: 40px;
-  padding-left: 2vh;
-  margin-top: 32px;
+  height: 10vh;
+  margin-left: 0.5vh;
+  margin-top: 7vh;
 }
 
-.nav-links {
+.navLinks {
   display: flex;
   align-items: center;
 }
 
-.nav-links a {
+.navLinks a {
   margin: 0 1vw;
   /* Use vw for horizontal spacing */
   font-family: 'Lufga', sans-serif;
   text-decoration: none;
   color: #254336;
+  font-size: 2vh;
   /* Change the color to #254336 */
   font-weight: bold;
   /* Make the text bold */
 }
 
-.nav-links span {
+.navLinks span {
   margin: 0 1vw;
   /* Use vw for horizontal spacing */
   color: #254336;
   /* Change the color to #254336 */
 }
 
-.nav-links .icon {
+.navLinks .icon {
   height: 24px;
   /* Adjust the size of the search icon */
   margin-left: 2vw;
@@ -163,4 +173,142 @@
 
 .dropdownItem:hover {
   background-color: #f0f0f0;
+}
+
+.hamburger {
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+  z-index: 1001;
+  margin-right: auto;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #254336;
+  border-radius: 2px;
+}
+
+
+/* Mobile Styles (max-width: 908px) */
+@media (max-width: 908px) {
+
+  .header {
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+    height: auto;
+    position: static;
+    transform: none;
+    background-color: rgba(255, 255, 255, 0);
+  }
+
+  .logo img {
+    height: 2vh;
+    margin: 0;
+    display: none;
+  }
+
+  .hamburger {
+    display: flex; /* Show hamburger icon on smaller screens */
+    position: absolute;
+    right: 5%;
+    top: 2vh;
+  }
+
+  .navLinks {
+    display: none; /* Hide nav links by default */
+    position: absolute;
+    top: 5.5vh;
+    right: 0;
+    width: 30%;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.851);
+    border-top: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+    z-index: 1000;
+  }
+
+  .navLinks.show {
+    display: flex; /* Show the dropdown when active */
+  }
+
+  .navLinks a {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    border-radius: 50px;
+  }
+
+/* Optional: Add some transition for smooth dropdown effect */
+.navLinks {
+  transition: all 0.3s ease-in-out;
+}
+
+.navLinks span{
+  display: none;
+}
+
+.icon{
+  display: none;
+}
+  .icons img{
+    margin-top: 10px;
+    display: none;
+  }
+  .loggedInBtn{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+
+  }
+
+  .signup
+  {
+    width: 100px;
+    height: 35px;
+    font-size: 14px;
+    margin: 10px 5px;
+    background-color: #254336;
+    color: #ffffff;
+  }
+  .login {
+    width: 100px;
+    height: 35px;
+    font-size: 14px;
+    margin: 10px 5px;
+    background-color: #254336;
+    color: #ffffff;
+  }
+
+  .authButtons{
+    display: flex;
+    flex-direction: column;
+  }
+  .dropdownMenu {
+    width: 100%;
+  }
+
+
+  .login:hover {
+    background-color: #ffffff;
+    /* Background on hover */
+    color: #254336;
+    /* Text color on hover */
+  }
+
+  .signup:hover{
+    background-color: #ffffff;
+    /* Background on hover */
+    color: #254336;
+  }
 }

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./LandingPage.module.css";
 import LandingHeader from "../components/LandingHeader/Header";
-import LogInForm from "../components/LogIn/LogInForm";  // Import LogInForm
+import LogInForm from "../components/LogIn/LogInForm";
 import { useRouter } from 'next/navigation';
 import { getToken } from '../services/auth';
 
@@ -44,10 +44,15 @@ const LandingPage: React.FC = () => {
     <div className={styles.background}>
       <LandingHeader />
       <div className={styles.container}>
-        <p className={styles.t1}>AI Curated corporate wellness program</p>
-        <p className={styles.t2}>MyEasyPharma</p>
-        <button className={styles.b1} onClick={handleLoginClick}>Get started for free</button>
-        <Link href='/OurServices'><button className={styles.b2}>&#x25BC; Our Services</button></Link>
+        <div>
+          <p className={styles.heading}>AI Curated corporate wellness program</p>
+          <p className={styles.subHeading}>MyEasyPharma</p>
+          <button className={styles.started_btn} onClick={handleLoginClick}>Get started for free</button>
+          <Link href='/OurServices'><button className={styles.services_btn}>&#x25BC; Our Services</button></Link>
+        </div>
+        <div style={{alignItems:"right"}}>
+          <img src="/LandingPage/hero_image.png"></img>
+        </div>
       </div>
       {showLogin && <LogInForm onClose={handleCloseLogin} />}
     </div>

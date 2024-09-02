@@ -80,3 +80,11 @@ h3 {
   width: 20px; /* Adjust size as needed */
   height: 20px; /* Adjust size as needed */
 }
+
+
+@media (max-width:1200px) {
+  .faqs-container{
+    margin: 0;
+    overflow-x: hidden;
+  }
+}

@@ -13,24 +13,61 @@ import LandingHeader from "../components/LandingHeader/Header";
 
 const Contact: FunctionComponent = () => {
   return (
-    <div>
+    <div className={styles.background}>
       <LandingHeader />
       <div className={styles.container}>
-          <div className={styles.productsupport}>
-            <p className={styles.phead}>Have questions about our products, support services, or
-              anything else? Let us know and we'll get back to you.</p>
+          <div className={styles.heading}>
+            <p>Have questions about our products, support services, or</p>
+            <p>anything else? Let us know and we'll get back to you.</p>
           </div>
-          <div className={styles.address}>
-            <h3 className={styles.adhead}>Corporate Address:</h3>
-            <p className={styles.adtext}>Myeasypharma Pvt Ltd
-              Unit 101, Oxford Towers 139, HAL Old Airport Rd H.A.L II Stage Bangalore, Karnataka, India, 560008</p>
-            <h3 className={styles.adhead2}>Operating Address:</h3>
-            <p className={styles.adtext2}>252, Upper Ground Floor. Deepali, Pitampura,
-              Delhi-110034</p>
-            <h3 className={styles.chead}>Contacts</h3>
-            <p className={styles.ctext1}> Email: info@myeasypharma.in</p>
-            <p className={styles.ctext2}> Phone: +91-9315909654</p>
+
+          <div className={styles.subContainer}>
+            <div className={styles.subContainerLeft}>
+              <p>
+                Corporate Address:
+              </p>
+              <p>
+                Myeasypharma Pvt Ltd
+              </p>
+              <p>
+                Unit 101, Oxford Towers 139, HAL Old Airport Rd H.A.L II
+              </p>
+              <p>
+                Stage Bangalore, Karnataka, India, 560008
+              </p>
+              <br></br>
+              <br></br>
+              <br></br>
+              <p>
+                Operating Address:
+              </p>
+              <p>
+              252, Upper Ground Floor. Deepali, Pitampura,
+              </p>
+              <p>
+              Delhi-110034
+              </p>
+              <br></br>
+              <br></br>
+              <br></br>
+            </div>
+            <div className={styles.subContainerMid}>
+              <span></span>
+            </div>
+            <div className={styles.subContainerRight}>
+              <p>
+                Contacts :
+              </p>
+              <p>
+                Email: info@myeasypharma.in
+              </p>
+              <p>
+                Phone: +91-9315909654
+              </p>
+            </div>
           </div>
+
+      </div>
           <div className={styles.social}>
             <img src="/socialx.png" alt="x" />
             <img src="/socialfacebook.png" alt="facebook" />
@@ -42,7 +79,7 @@ const Contact: FunctionComponent = () => {
             </a>
           </div>
         </div>
-      </div>
+
   );
 };
 

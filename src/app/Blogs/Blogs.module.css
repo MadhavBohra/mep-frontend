@@ -1,15 +1,15 @@
-/* Blogs.css */
+/* Blogs.css
 
 html, body {
   margin: 0;
   padding: 0;
   font-family: 'Lufga', sans-serif;
-  background-image: url('/Background.png'); /* Ensure this path is correct */
+  background-image: url('/Background.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed; /* This makes the background image fixed on scroll */
-  overflow-y: scroll; /* Ensure the body is scrollable */
+  background-attachment: fixed; 
+  overflow-y: scroll; 
 }
 
 .blogs-container {
@@ -19,13 +19,13 @@ html, body {
   justify-content: center;
   gap: 20px;
   padding: 20px;
-  margin-top: 10vh; /* To offset the fixed header */
+  margin-top: 10vh;
 }
 
 .blog-box {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Ensure content is spaced within the box */
+  justify-content: space-between; 
   margin: 0.5vw;
   height:25vh;
   width: 80vw;
@@ -35,10 +35,10 @@ html, body {
   background-color: rgba(133, 170, 151, 0.5);
   transition: transform 0.2s, box-shadow 0.2s, height 0.3s;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow */
-  text-decoration: none; /* Remove underline from links */
-  color: inherit; /* Ensure link color matches the surrounding text */
-  overflow: hidden; /* Ensure content doesn't overflow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-decoration: none; 
+  color: inherit; 
+  overflow: hidden; 
 }
 
 .text-content pre {
@@ -47,12 +47,12 @@ html, body {
   font-family: inherit;
 }
 .blog-box.expanded {
-  height: auto; /* Allow height to adjust to content */
+  height: auto; 
 }
 
 .blog-box:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
 }
 
 .blog-box .content {
@@ -60,8 +60,8 @@ html, body {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  width: calc(100% - 150px); /* Fixed width for text content */
-  padding: 0 20px; /* Add padding to ensure text does not touch the edges */
+  width: calc(100% - 150px); 
+  padding: 0 20px; 
 }
 
 .blog-box.even {
@@ -69,24 +69,24 @@ html, body {
 }
 
 .blog-box .blog-image {
-  width: 130px; /* Fixed width for the image */
-  height: auto; /* Height will adjust based on aspect ratio */
-  object-fit: cover; /* Maintain aspect ratio while filling the box */
-  border-radius: 40px; /* Optional: round corners of the image */
+  width: 130px; 
+  height: auto;
+  object-fit: cover; 
+  border-radius: 40px; 
 }
 
 .blog-box h2 {
   margin: 0 0 10px;
   font-family: 'Lufga', sans-serif;
   color: #254336;
-  font-size: 1.5em; /* Adjust font size */
+  font-size: 1.5em; 
 }
 
 .blog-box p {
   margin: 0;
   font-family: 'Lufga', sans-serif;
   color: #254336;
-  font-size: 1em; /* Adjust font size */
+  font-size: 1em; 
 }
 .read-more {
   display: inline-block;
@@ -111,4 +111,41 @@ html, body {
 .read-more:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+} */
+
+
+.background {
+  overflow-y: visible;
+  display: flex;
+  width: 100%;
+  height: auto;
+  background-image: url('/LandingPage/Background.png');
+  /* background-position: center; */
+  background-size: cover;
+  background-repeat: repeat;
+  background-position: bottom;
+  margin: 0;
+  z-index: -1;
+}
+
+.blogContainer{
+  width: 100%;
+  height: inherit;
+  margin-top: 15vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.blogContainer span{
+  height: 10px;
+  width: 100%;
+}
+
+
+@media (max-width: 908px) {
+  .blogContainer{
+    margin-top: 4vh;
+  }
+  
 }

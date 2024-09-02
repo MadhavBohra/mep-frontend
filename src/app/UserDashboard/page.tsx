@@ -108,7 +108,7 @@ const UserDashboard: React.FC = () => {
               message="Have a nice day and don’t forget to take care of your health!"
             />
             <div style={{ display: 'flex' }}>
-              <div style={{ width: '60%', marginTop: '40px', height:"100%" }}>
+              <div style={{ width: '60%', marginTop: '40px'}}>
                 <BarsDataset />
                 <div style={{ display: 'flex', width: '100%' }}>
                   <div style={{ flex: 1, marginTop: '20px' }}>
