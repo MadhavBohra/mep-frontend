@@ -110,9 +110,11 @@ const Blogs: React.FC = () => {
         <LandingHeader></LandingHeader>
         <div className={styles.blogContainer}>
           {blogs.map((blog,index)=>(<>{console.log(blog.title)}
+          {console.log(blog.content)}
           <BlogCard
             heading =  {blog.title}
-            content = {blog.formattedContent}
+            content = {blog.content}
+
             image={blog.images[0]}
           ></BlogCard>
           

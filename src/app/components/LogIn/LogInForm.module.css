@@ -184,13 +184,25 @@
 }
 
 @media (max-width: 908px) {
+  .loginContainer{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    padding-right: 5px;
+    /* height: 90vh; */
+    /* overflow-y: auto; */
+    /* height: max-content; */
+  }
+
   .imageContainer {
     display: none; /* Hides the image container on smaller screens */
   }
   
   .formContainer {
     width: 90%; /* Adjusts the form width on smaller screens */
-    margin-left: 0; /* Centers the form */
+    margin: 0; /* Centers the form */
     border-radius: 20px; /* Adds a full border-radius on mobile */
+    height: auto;
+    overflow: auto;
   }
 }

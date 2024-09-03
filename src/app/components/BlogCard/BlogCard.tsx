@@ -23,7 +23,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ heading, content, image }) => {
               <p className={styles.heading}>{heading}</p>
               {/* Conditionally render content based on isExpanded */}
                 <p>
-                  {content.length > 400 ? `${content.substring(0, 400)}...` : content}
+                  {content.length > 300 ? `${content.substring(0, 300)}...` : `${content}`}
                 </p>
             </div>
             </div>
@@ -36,7 +36,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ heading, content, image }) => {
                   {content}
                 </p>
             </div>
-            <a href="https://www.example.com" target="_blank" className={styles.readMoreBtn}>Read More</a>
+            {/* <a href="https://www.example.com" target="_blank" className={styles.readMoreBtn}>Read More</a> */}
         </div>
         )}
     

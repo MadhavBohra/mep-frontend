@@ -14,6 +14,7 @@ export type MissionContainerType = {
 // Main AboutUs component
 const AboutUs: React.FC = () => {
   return (
+
     <div className={styles.background}>
       <LandingHeader />
       <div className={styles.heading}>
