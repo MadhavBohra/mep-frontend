@@ -19,6 +19,7 @@ const LandingPage: React.FC = () => {
   // Check if the token is valid or expired
   useEffect(() => {
     const token = getToken();
+    // const token = "1234";
     if (token) {
       router.replace('/UserDashboard');
     } else {

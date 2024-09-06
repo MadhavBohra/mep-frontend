@@ -15,6 +15,7 @@ import Header from '../components/LandingHeader/Header';
 import UsernameCard from '../components/UsernameCard/UsernameCard';
 import BarsDataset from '../components/Chart/Chart';
 import Reminder from '../components/Reminder/Reminders';
+import Loader from '../components/Loader/Loader';
 
 import { getToken } from '../services/auth';
 
@@ -69,6 +70,7 @@ const UserDashboard: React.FC = () => {
 
   useEffect(() => {
     const token = getToken();
+    // const token = "1234";
 
     if (!token) {
       router.replace('/LandingPage');
@@ -89,7 +91,7 @@ const UserDashboard: React.FC = () => {
   }, [router]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader></Loader>
   }
 
   if (error) {

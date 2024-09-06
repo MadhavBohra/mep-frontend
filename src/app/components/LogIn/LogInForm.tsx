@@ -141,12 +141,10 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           />
           <label>
             Password
-            <div>
+            <div className={styles.eyeIcon} onClick={toggleShowPassword}>
               <img
                 src='/eye.png'
-                alt={showPassword ? 'Hide' : 'Show'}
-                className={styles.eyeIcon}
-                onClick={toggleShowPassword}
+                alt={showPassword ? 'Hide' : 'Show'}       
               />
               {showPassword ? 'Hide' : 'Show'}
             </div>

@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import './UserProfile.css';
+// import './UserProfile.css';
 import LandingHeader from "../components/LandingHeader/Header";
 import { getToken } from '../services/auth';
 import { useRouter } from 'next/navigation';
+import styles from './UserProfile.module.css';
 
 interface UserData {
     username: string;
@@ -144,122 +145,108 @@ export default function UserProfile() {
         }
     };
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    // if (loading) {
+    //     return <div>Loading...</div>;
+    // }
 
     return (
-        <>
-            <div style={{ display: 'flex', flexDirection: 'column', backgroundImage: "url('/Background.png')", height: '100vh', overflow: 'hidden' }}>
-                <LandingHeader />
-                <div className="profile-container">
-                    <div className="profile-sidebar">
-                        <img
-                            src={typeof formData.profilePhoto === 'string' ? formData.profilePhoto : '/Default_pfp.svg.png'}
-                            alt="Profile Picture"
-                            className="profile-picture"
+        <div className={styles.background}>
+            <LandingHeader />
+            <div className={styles.masterContainer}>
+                <h1>User Profile</h1>
+                <div className={styles.container}>
+                    <div className={styles.container1}>
+                        <img 
+                            src="UserProfile/Default_pfp-removebg-preview.png"
+                            alt="Profile Picture" 
                         />
-                        <h2>{formData.username || 'testuser'}</h2>
-                        <p>{formData.email || 'edogaru@mail.com.my'}</p>
+                        <p>Username</p>
+                        <br></br>
+                        <p>testuser@gmail.com</p>
                     </div>
-                    <div className="profile-main">
-                        <h1>Profile Settings</h1>
-                        <form className="profile-form" onSubmit={handleSubmit}>
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label htmlFor="firstName">First Name</label>
-                                    <input
-                                        type="text"
-                                        id="firstName"
-                                        name="firstName"
-                                        placeholder="Enter first name"
-                                        value={formData.firstName}
+                    <div className={styles.container2}>
+                        <form onSubmit={handleSubmit}>
+                            <div  className={styles.formSubContainer}>
+                                <div style={{display:"flex",flexDirection:"column",width:"100%",alignItems:"center"}}>
+                                    <label>First Name</label>
+                                    <input 
+                                        type="text" 
+                                        id="firstName" 
+                                        name="firstName" 
+                                        value={formData.firstName} 
                                         onChange={handleInputChange}
                                     />
                                 </div>
-                                <div className="form-group">
-                                    <label htmlFor="lastName">Last Name</label>
-                                    <input
-                                        type="text"
-                                        id="lastName"
-                                        name="lastName"
-                                        placeholder="Enter last name"
-                                        value={formData.lastName}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="dob">Date of Birth</label>
-                                <input
-                                    type="date"
-                                    id="dob"
-                                    name="dob"
-                                    value={formData.dob}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="address">Address</label>
-                                <input
-                                    type="text"
-                                    id="address"
-                                    name="address"
-                                    placeholder="Enter address"
-                                    value={formData.address}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label htmlFor="bloodGroup">Blood Group</label>
-                                    <input
-                                        type="text"
-                                        id="bloodGroup"
-                                        name="bloodGroup"
-                                        placeholder="Enter blood group"
-                                        value={formData.bloodGroup}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="height">Height (cm)</label>
-                                    <input
-                                        type="number"
-                                        id="height"
-                                        name="height"
-                                        placeholder="Enter height"
-                                        value={formData.height}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="weight">Weight (kg)</label>
-                                    <input
-                                        type="number"
-                                        id="weight"
-                                        name="weight"
-                                        placeholder="Enter weight"
-                                        value={formData.weight}
+                                <div style={{display:"flex",flexDirection:"column",width:"100%",alignItems:"center"}}>
+                                    <label>Last Name</label>
+                                    <input 
+                                        type="text" 
+                                        id="lastName" 
+                                        name="lastName" 
+                                        value={formData.lastName} 
                                         onChange={handleInputChange}
                                     />
                                 </div>
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="profilePhoto">Profile Photo</label>
-                                <input
-                                    type="file"
-                                    id="profilePhoto"
-                                    name="profilePhoto"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                />
+
+                            <div className={styles.formSubContainer}>
+                                <div style={{display:"flex",flexDirection:"column",width:"100%",alignItems:"center"}}>
+                                    <label>Date of Birth</label>
+                                    <input 
+                                        type="date" 
+                                        id="dob" 
+                                        name="dob" 
+                                        value={formData.dob} 
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div style={{display:"flex",flexDirection:"column",width:"100%",alignItems:"center"}}>
+                                    <label>Blood Group</label>
+                                    <input 
+                                        type="text" 
+                                        id="bloodGroup" 
+                                        name="bloodGroup" 
+                                        value={formData.bloodGroup} 
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
                             </div>
-                            <button type="submit" className="submit-button">Save Changes</button>
+                            <div  className={styles.formSubContainer}>
+                                <div style={{display:"flex",flexDirection:"column",width:"100%",alignItems:"center"}}>
+                                    <label>Height (cm)</label>
+                                    <input 
+                                        type="number" 
+                                        id="height" 
+                                        name="height" 
+                                        value={formData.height} 
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div style={{display:"flex",flexDirection:"column",width:"100%",alignItems:"center"}}>
+                                    <label>Weight (kg)</label>
+                                    <input 
+                                        type="number" 
+                                        id="weight" 
+                                        name="weight" 
+                                        value={formData.weight} 
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                            </div>
+                                    {/* <label>Profile Photo</label>
+                                    <input 
+                                        type="file" 
+                                        id="profilePhoto" 
+                                        name="profilePhoto" 
+                                        onChange={handleFileChange}
+                                        style={{backgroundColor:"transparent"}}
+                                    /> */}
                         </form>
                     </div>
+                    
+                    
                 </div>
             </div>
-        </>
+        </div>
     );
 }
