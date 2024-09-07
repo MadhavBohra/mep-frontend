@@ -1,0 +1,56 @@
+.background {
+    background: linear-gradient(128.11deg, #254336 17.35%, rgba(93, 169, 136, 0.8) 94.33%);
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    margin: 20px;
+    height: 700px;
+    /* border-radius: 10px; */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease; /* Smooth transition for scaling */
+    z-index: 10;
+}
+
+.background img{
+    height: auto;
+    width: auto;
+    margin: 20px;
+
+}
+
+.background p{
+    font-family: "Lufga";
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+    color: white;
+    margin: 0;
+
+
+}
+
+.background:hover {
+    transform: scale(1.05); /* Slightly increase the size when hovered */
+    cursor: pointer;
+  }
+
+
+@media (max-width: 1200px) {
+
+    .background{
+        height: 350px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .background img{
+        height: 200px;
+        width: auto;
+
+    }
+    .background p{
+        font-size: 16px;
+    }
+}

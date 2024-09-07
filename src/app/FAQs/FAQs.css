@@ -1,4 +1,4 @@
-html, body {
+.FAQBackground {
   margin: 0;
   padding: 0;
   font-family: 'Lufga', sans-serif;
@@ -7,7 +7,6 @@ html, body {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  overflow-y: scroll;
 }
 
 .faqs-container {
@@ -79,4 +78,12 @@ h3 {
 .icon img {
   width: 20px; /* Adjust size as needed */
   height: 20px; /* Adjust size as needed */
+}
+
+
+@media (max-width:1200px) {
+  .faqs-container{
+    margin: 0;
+    overflow-x: hidden;
+  }
 }

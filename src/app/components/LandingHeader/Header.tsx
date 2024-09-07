@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import './Header.css';
+import styles from "./Header.module.css";
 
 import LogInForm from '../LogIn/LogInForm';
 import SignUpForm from '@/app/SignUp/SignUpForm';
 import { clearTokens, getToken } from '../../services/auth';
-import { signUp } from '../../services/api'; // Import the API utility function
+import { signUp } from '../../services/api';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,16 +16,17 @@ const Header: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const token = getToken();
-    setIsAuthenticated(!!token); // Simplified to directly set the state based on token presence
+    setIsAuthenticated(!!token);
     setIsCheckingAuth(false);
   }, []);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 30);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -50,8 +51,6 @@ const Header: React.FC = () => {
     setShowSignUp(false);
   };
 
-
-
   const handleSignUpComplete = async (userData: { email: string; username: string; password: string }) => {
     try {
       const result = await signUp(userData);
@@ -65,31 +64,35 @@ const Header: React.FC = () => {
     }
   };
 
-
-
-// Drop Downs :
-const handleToggle = () => setIsOpen(!isOpen);
+  const handleToggle = () => setIsOpen(!isOpen);
 
   const handleProfile = () => {
-    window.location.href = '/UserProfile'; // Navigate to the profile page
+    window.location.href = '/UserProfile';
     setIsOpen(false);
   };
 
   const handleLogout = () => {
-    // Add your logout logic here
     console.log('Logging out...');
     window.location.href = '/LandingPage';
     clearTokens();
     setIsOpen(false);
   };
 
+  // Toggle mobile menu
+  const handleMenuToggle = () => setIsMenuOpen(!isMenuOpen);
+
   return (
-    <div className='header-container'>
-      <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
-        <div className="logo">
+    <div className={styles.headerContainer}>
+      <header className={`${styles.header} ${isScrolled ? `${styles.scrolled}` : ''}`}>
+        <div className={styles.hamburger} onClick={handleMenuToggle}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div className={styles.logo}>
           <Link href='/LandingPage'><img src="/logo.png" alt="Logo" /></Link>
         </div>
-        <nav className="nav-links">
+        <nav className={`${styles.navLinks} ${isMenuOpen ? styles.show : ''}`}>
           <Link href='/LandingPage'>Home</Link>
           <span>/</span>
           <Link href="/AboutUs">About Us</Link>
@@ -99,32 +102,34 @@ const handleToggle = () => setIsOpen(!isOpen);
           <Link href="/FAQs">FAQs</Link>
           <span>/</span>
           <Link href="/ContactUs">Contact</Link>
-          <span>/</span>
-          <img className="icon" src="/search.png" alt="Search" style={{width:"24px"}}/>
+          {isAuthenticated ? (
+            <div className={styles.loggedInBtn}>
+              <Link href="/UserProfile">Profile</Link>
+              <Link href='/LandingPage' onClick={handleLogout}>Log Out</Link>
+            </div>
+          ) : (
+            <div className={styles.authButtons}>
+              <button className={styles.signup} onClick={handleSignUpClick}>Sign Up</button>
+              <button className={styles.login} onClick={handleLoginClick}>Log In</button>
+            </div>
+          )}
         </nav>
-        <div className="icons">
-          {!isCheckingAuth && (
-            !isAuthenticated ? (
-              <>
-                <button className='signup' onClick={handleSignUpClick}>Sign Up</button>
-                <button className='login' onClick={handleLoginClick}>Log In</button>
-              </>
-            ) : (
-              <>
-                <img className="bell" src="/Bell.png" alt="Notifications" />
-                <img className="avatar" src="/avataricon.png" alt="User Avatar" onClick={handleToggle}/>
-                {isOpen && (
-                  <div className="dropdownMenu">
-                    <button onClick={handleProfile} className="dropdownItem">
-                      Profile
-                    </button>
-                    <button onClick={handleLogout} className="dropdownItem">
-                      Log Out
-                    </button>
-                  </div>
-                )}
-              </>
-            )
+        <div className={styles.icons}>
+          {!isCheckingAuth && isAuthenticated && (
+            <>
+              <img className={styles.bell} src="/Bell.png" alt="Notifications" />
+              <img className={styles.avatar} src="/avataricon.png" alt="User Avatar" onClick={handleToggle} />
+              {isOpen && (
+                <div className={styles.dropdownMenu}>
+                  <button onClick={handleProfile} className={styles.dropdownItem}>
+                    Profile
+                  </button>
+                  <button onClick={handleLogout} className={styles.dropdownItem}>
+                    Log Out
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </header>

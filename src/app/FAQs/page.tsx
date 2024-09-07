@@ -92,7 +92,7 @@ const FAQs: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className={"FAQBackground"}>
       <LandingHeader /> {/* Include the Header component */}
       <div className="faqs-container">
         <div className="intro-text">

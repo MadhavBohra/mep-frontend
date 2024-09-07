@@ -1,11 +1,11 @@
 'use client';
 
-import './Blogs.css';
+
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import LandingHeader from '../components/LandingHeader/Header';
-// import UserDashboardHeader from '../components/UserDashboardHeader/Header';
-// import PDFModal from '../components/PdfModal/PdfModal';
+import styles from './Blogs.module.css';
+import BlogCard from '../components/BlogCard/BlogCard';
 
 interface Blog {
   id: number;
@@ -13,7 +13,7 @@ interface Blog {
   content: string;
   formattedContent: string;
   images: string[];
-  pdfUrl: string;
+  link: string;
 }
 
 
@@ -23,8 +23,8 @@ const formatContent = (content: string) => {
 };
 
 const Blogs: React.FC = () => {
+  // empty blogs list
   const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
   const [expandedBlogId, setExpandedBlogId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -44,13 +44,14 @@ const Blogs: React.FC = () => {
     setExpandedBlogId(prev => (prev === id ? null : id));
   };
 
-  const handlePdfClick = (pdfUrl: string) => {
-    const fullPdfUrl = `${window.location.origin}${pdfUrl}`;
-    setSelectedPdf(fullPdfUrl);
-  };
+  console.log(blogs);
+
+
+
 
   return (
     <>
+    {/* <div className={styles.background}>
       <LandingHeader />
       <div className="blogs-container">
         {blogs.map((blog, index) => (
@@ -104,7 +105,26 @@ const Blogs: React.FC = () => {
       {/* {selectedPdf && (
         <PDFModal pdfUrl={selectedPdf} onClose={() => setSelectedPdf(null)} />
       )} */}
+      {/* </div> */} 
+      <div className={styles.background}>
+        <LandingHeader></LandingHeader>
+        <div className={styles.blogContainer}>
+          {blogs.map((blog,index)=>(<>{console.log(blog.title)}
+          {console.log(blog.content)}
+          <BlogCard
+            heading =  {blog.title}
+            content = {blog.content}
+
+            image={blog.images[0]}
+          ></BlogCard>
+          
+          </>)
+          )}
+          <span style={{height:"10px"}}> ‎ ‎   </span>
+        </div>
+      </div>
     </>
+
   );
 };
 

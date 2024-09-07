@@ -16,7 +16,7 @@ interface ProfileCardProps {
 
 const ProfileCard: React.FC<ProfileCardProps> = ({Name,Age,Address,Blood_Group,Height,Weight,ProfileImage}) => {
   console.log(ProfileImage);
-  ProfileImage = '/Default_pfp.svg.png';
+  ProfileImage = '/UserProfile/Default_pfp-removebg-preview.png';
   return (
     <div className={styles.card}>
       <div className={styles.avatar}>

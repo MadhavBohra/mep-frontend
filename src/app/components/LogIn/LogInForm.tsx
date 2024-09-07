@@ -3,8 +3,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import './LogInForm.css';
-import { clearTokens, setToken } from '../../services/auth';
+import { googleSignIn, facebookSignIn } from '../../services/firebase';
+import { UserCredential } from 'firebase/auth';
+import styles from './LogInForm.module.css';
 
 const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [username, setUsername] = useState('');
@@ -15,7 +16,7 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const formContainerRef = useRef<HTMLDivElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
-  const router = useRouter(); // For navigation
+  const router = useRouter();
 
   useEffect(() => {
     const handleGlobalClick = (event: MouseEvent) => {
@@ -37,100 +38,67 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
-    validateForm();
+    validateForm(e.target.value, password);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    validateForm();
+    validateForm(username, e.target.value);
   };
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const validateForm = () => {
+  const validateForm = (username: string, password: string) => {
     setFormValid(username.length > 0 && password.length > 0);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
-    try {
-      clearTokens();
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: username, password }),
-      });
-  
-      const data = await response.json();
-      if (!response.ok) {
-        console.log(data);
-        throw new Error(data.message || 'Invalid email or password');
-      }
+    // Handle your custom login logic here
+  };
 
-      const authToken = data.accessToken; // or whatever the key is in your response
-      const refreshToken = data.refreshToken; // or whatever the key is in your response
-      console.log(authToken);
-      setToken(authToken,refreshToken);
-  
-      // Check if user has a profile
-      const profileResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user-profile`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (profileResponse.ok) {
-        // User has a profile, redirect to dashboard
-        router.push('/UserDashboard');
-      } else {
-        // User does not have a profile, redirect to profile creation
-        router.push('/UserProfile');
-        console.log(response);
-        console.log(data);
-      }
-      // } else {
-      //   throw new Error('Failed to verify user profile');
-      // }
-    } catch (error: any) {
-      setErrorMessage(error.message);
+  const handleSocialLogin = async (loginMethod: () => Promise<UserCredential>) => {
+    try {
+      const result = await loginMethod();
+      console.log('User signed in:', result.user);
+      router.push('/UserDashboard');
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : 'An error occurred during sign in');
     }
   };
+
   return (
-    <div className='loginContainer' onClick={(e) => {
+    <div className={styles.loginContainer} onClick={(e) => {
       if (e.target === e.currentTarget) onClose();
     }}>
-      <div className='formContainer' ref={formContainerRef}>
-        <img src='/logo.png' alt="Logo" className='logo' />
+      <div className={styles.formContainer} ref={formContainerRef}>
+        <img src='/logo.png' alt="Logo" className={styles.logo} />
         <h2>Log In</h2>
         <h4>
           Don't have an account?{' '}
           <Link href="/SignUp">
-            <span className='signUp'>Sign Up</span>
+            <span className={styles.signUp}>Sign Up</span>
           </Link>
         </h4>
-        <div className='socialsContainer'>
-          <button type="button" className='googleBtn'>
-            <img src='/logos/google.svg' alt='google-icon' className='icon' /> Log in with Google
+        <div className={styles.socialsContainer}>
+          <button type="button" className={styles.googleBtn} onClick={() => handleSocialLogin(googleSignIn)}>
+            <img src='/logos/google.svg' alt='google-icon' className={styles.icon} /> Log in with Google
           </button>
-          <button type="button" className='facebookBtn'>
-            <img src='/logos/facebook.svg' alt='facebook-icon' className='icon' /> Log in with Facebook
+          <button type="button" className={styles.facebookBtn} onClick={() => handleSocialLogin(facebookSignIn)}>
+            <img src='/logos/facebook.svg' alt='facebook-icon' className={styles.icon} /> Log in with Facebook
           </button>
         </div>
-        <div className='orSeparator'>
-          <span className='line'></span>
-          <span className='orText'>OR</span>
-          <span className='line'></span>
+        <div className={styles.orSeparator}>
+          <span className={styles.line}></span>
+          <span className={styles.orText}>OR</span>
+          <span className={styles.line}></span>
         </div>
-        <form onSubmit={handleSubmit} className='loginForm'>
-          <label>Username or Email</label>
+        <form onSubmit={handleSubmit} className={styles.loginForm}>
+          <label htmlFor="username">Username or Email</label>
           <input
+            id="username"
             placeholder='Username'
             type="text"
             name="username"
@@ -138,20 +106,19 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             onChange={handleUsernameChange}
             required
           />
-          <label>
+          <label htmlFor="password">
             Password
-            <div>
+            <button type="button" className={styles.eyeIcon} onClick={toggleShowPassword}>
               <img
                 src='/eye.png'
-                alt={showPassword ? 'Hide' : 'Show'}
-                className='eyeIcon'
-                onClick={toggleShowPassword}
+                alt={showPassword ? 'Hide password' : 'Show password'}       
               />
               {showPassword ? 'Hide' : 'Show'}
-            </div>
+            </button>
           </label>
-          <div className='passwordInput'>
+          <div className={styles.passwordInput}>
             <input
+              id="password"
               placeholder='Password'
               type={showPassword ? 'text' : 'password'}
               name="password"
@@ -160,17 +127,17 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               required
             />
           </div>
-          {errorMessage && <p className='errorMessage'>{errorMessage}</p>}
+          {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
           <Link href="/forgot-password">
-            <span className='forgotPassword'>Forgot Password?</span>
+            <span className={styles.forgotPassword}>Forgot Password?</span>
           </Link>
-          <button type="submit" className='loginBtn' disabled={!formValid}>
+          <button type="submit" className={styles.loginBtn} disabled={!formValid}>
             Log in
           </button>
         </form>
       </div>
-      <div className='imageContainer' ref={imageContainerRef}>
-        <img src='/GreenBGRight.png' alt="Side" />
+      <div className={styles.imageContainer} ref={imageContainerRef}>
+        <img src='/GreenBGRight.png' alt="Decorative side image" />
       </div>
     </div>
   );
