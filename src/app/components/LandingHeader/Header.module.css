@@ -39,6 +39,12 @@
 .header.scrolled {
   background-color: #ffffffcc;
   border-bottom: #838383cc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.544);
+}
+
+.header.scrolled .logo img{
+  height: 5vh;
+  margin: 0;
 }
 
 .logo img {

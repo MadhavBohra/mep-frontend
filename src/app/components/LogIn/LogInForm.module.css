@@ -1,17 +1,18 @@
 .loginContainer {
   z-index: 2000;
-  position: fixed;
+  position: absolute;
   display: flex;
   font-family: 'Lufga', sans-serif;
   top: 0;
   left: 0;
-  height: 100vh;
+  height: 940px;
   width: 100%;
   overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.219);
   justify-content: center;
   align-items: center;
   padding: 10px; /* Adds some padding to prevent the form from touching the screen edges */
+  overflow: true;
 }
 
 .formContainer {
@@ -137,19 +138,23 @@
 
 .loginForm img{
   height: 2px;
+
 }
 
+.eyeIcon:hover{
+  cursor: pointer;
+}
 .passwordInput{
-  width: 107%;
-}
-
-.passwordInput input{
   height: 32px;
   width: 100%;
   text-align: center;
   border-radius: 5px;
   border-width: 1px;
   margin: 1vh;
+}
+
+.passwordInput input{
+  margin: 0;
 }
 
 .forgotPassword {
@@ -184,13 +189,25 @@
 }
 
 @media (max-width: 908px) {
+  .loginContainer{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    padding-right: 5px;
+    /* height: 90vh; */
+    /* overflow-y: auto; */
+    /* height: max-content; */
+  }
+
   .imageContainer {
     display: none; /* Hides the image container on smaller screens */
   }
   
   .formContainer {
     width: 90%; /* Adjusts the form width on smaller screens */
-    margin-left: 0; /* Centers the form */
+    margin: 0; /* Centers the form */
     border-radius: 20px; /* Adds a full border-radius on mobile */
+    height: auto;
+    overflow: auto;
   }
 }

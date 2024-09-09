@@ -26,7 +26,7 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 30);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -83,7 +83,7 @@ const Header: React.FC = () => {
 
   return (
     <div className={styles.headerContainer}>
-      <header className={`${styles.header} ${isScrolled ? 'scrolled' : ''}`}>
+      <header className={`${styles.header} ${isScrolled ? `${styles.scrolled}` : ''}`}>
         <div className={styles.hamburger} onClick={handleMenuToggle}>
           <span></span>
           <span></span>
