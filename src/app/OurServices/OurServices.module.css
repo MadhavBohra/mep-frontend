@@ -1,7 +1,7 @@
 
 
 .background {
-  overflow: hidden;
+  overflow: scroll;
   display: flex;
   width: 100%;
   height: auto;
@@ -11,31 +11,32 @@
   background-repeat: no-repeat;
   background-position: bottom;
   margin: 0;
-  z-index: 10;
+  /* z-index: 10; */
   /* justify-content: center; */
   
   align-items: center;
   flex-direction: column;
-  position: relative;
 }
 
 .background h1{
   /* margin-top: 100vh; */
-  margin-top: 10vh;
+  /* margin-top: 5%; */
   font-family: "Lufga";
   font-size: 60px;
   font-weight: 600;
-  position: absolute;
+  /* position: absolute; */
   text-align: center;
   color: #254336;
+  display: block;
+  width: 100%;
 
 
 }
 
 .cardHolder{
   display: flex;
-  margin-top: 30vh;
-  height: 60vh;
+  /* margin-top: 5%; */
+  height: 60%;
   width: 100%;
   justify-content: center;
   align-items: center;
