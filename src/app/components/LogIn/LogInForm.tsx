@@ -65,6 +65,7 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       console.log('User signed in:', result.user);
       router.push('/UserDashboard');
     } catch (error) {
+      console.log(error);
       setErrorMessage(error instanceof Error ? error.message : 'An error occurred during sign in');
     }
   };
