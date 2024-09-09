@@ -27,41 +27,41 @@ const LandingPage: React.FC = () => {
     }
   }, [router]);
 
-  useEffect(() => {
-    let scrollTimeout: NodeJS.Timeout | null = null;
+  // useEffect(() => {
+  //   let scrollTimeout: NodeJS.Timeout | null = null;
 
-    const handleScroll = () => {
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-      scrollTimeout = setTimeout(() => {
-        snapScroll();
-      }, 100); // Adjust delay for faster or slower snapping
-    };
+  //   const handleScroll = () => {
+  //     if (scrollTimeout) {
+  //       clearTimeout(scrollTimeout);
+  //     }
+  //     scrollTimeout = setTimeout(() => {
+  //       snapScroll();
+  //     }, 1); // Adjust delay for faster or slower snapping
+  //   };
 
-    const snapScroll = () => {
-      if (!landingRef.current || !servicesRef.current) return;
-      const landingPos = landingRef.current.getBoundingClientRect().top;
-      const servicesPos = servicesRef.current.getBoundingClientRect().top;
+    // const snapScroll = () => {
+    //   if (!landingRef.current || !servicesRef.current) return;
+    //   const landingPos = landingRef.current.getBoundingClientRect().top;
+    //   const servicesPos = servicesRef.current.getBoundingClientRect().top;
 
-      // Determine which section is closer to the top and scroll to it
-      const scrollTo =
-        Math.abs(landingPos) < Math.abs(servicesPos)
-          ? landingRef.current
-          : servicesRef.current;
+    //   // Determine which section is closer to the top and scroll to it
+    //   const scrollTo =
+    //     Math.abs(landingPos) < Math.abs(servicesPos)
+    //       ? landingRef.current
+    //       : servicesRef.current;
 
-      scrollTo.scrollIntoView({ behavior: 'smooth' });
-    };
+    //   scrollTo.scrollIntoView({ behavior: 'smooth' });
+    // };
 
-    window.addEventListener('scroll', handleScroll);
+    // window.addEventListener('scroll', handleScroll);
 
-    return () => {
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  //   return () => {
+  //     if (scrollTimeout) {
+  //       clearTimeout(scrollTimeout);
+  //     }
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
 
   // Hide the entire landing page while checking authentication
   if (isCheckingAuth) return null;
