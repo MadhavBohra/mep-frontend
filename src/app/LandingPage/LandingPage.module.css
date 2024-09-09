@@ -1,10 +1,10 @@
 
 
   .background {
-    overflow: hidden;
+    overflow-y: auto;
     display: flex;
     width: 100%;
-    height: 100vh;
+    height: 940px;
     background-image: url('/LandingPage/Background.png');
     /* background-position: center; */
     background-size: cover;
@@ -58,7 +58,7 @@
     background-color: #6B8A7A;
     cursor: pointer;
     border-radius: 50px; /* Rounded corners */
-    height: 7vh;
+    height: 70px;
     width: 15vw;
     font-size: 20px;
     display: block;
