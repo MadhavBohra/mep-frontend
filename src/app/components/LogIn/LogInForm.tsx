@@ -3,9 +3,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { googleSignIn, facebookSignIn } from '../../services/firebase';
+import { googleSignIn, facebookSignIn } from '../../services/firebase'; // Firebase login services
 import { UserCredential } from 'firebase/auth';
 import styles from './LogInForm.module.css';
+import { setToken } from '@/app/services/auth';
 
 const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [username, setUsername] = useState('');
@@ -18,6 +19,7 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
+  // Close the form if clicking outside the modal
   useEffect(() => {
     const handleGlobalClick = (event: MouseEvent) => {
       if (
@@ -36,6 +38,11 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     };
   }, [onClose]);
 
+  // Form validation
+  const validateForm = (username: string, password: string) => {
+    setFormValid(username.length > 0 && password.length > 0);
+  };
+
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
     validateForm(e.target.value, password);
@@ -50,30 +57,84 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     setShowPassword(!showPassword);
   };
 
-  const validateForm = (username: string, password: string) => {
-    setFormValid(username.length > 0 && password.length > 0);
-  };
-
+  // Submit logic for email/password login
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle your custom login logic here
+
+    try {
+      // API call for email/password login
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: username,
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to log in');
+      }
+
+      setToken(data.accessToken,data.refreshToken);
+
+      console.log('Login successful:', data);
+      router.push('/UserDashboard');
+    } catch (error) {
+      console.error('Login error:', error);
+      setErrorMessage(error instanceof Error ? error.message : 'An error occurred during login');
+    }
   };
 
+  // Handle Google or Facebook login
   const handleSocialLogin = async (loginMethod: () => Promise<UserCredential>) => {
     try {
       const result = await loginMethod();
-      console.log('User signed in:', result.user);
+      const idToken = await result.user.getIdToken(); // Get Firebase ID token
+
+      console.log(result);
+      console.log(idToken);
+
+      // Send token to the backend for user authentication
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/social-login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: idToken,
+          // provider: result.user.providerData[0].providerId, // Identify the provider (Google, Facebook, etc.)
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to log in via social login');
+      }
+
+      setToken(data.accessToken,data.refreshToken);
+
+      console.log('Social login successful:', data);
       router.push('/UserDashboard');
     } catch (error) {
-      console.log(error);
+      console.error('Social login error:', error);
       setErrorMessage(error instanceof Error ? error.message : 'An error occurred during sign in');
     }
   };
 
   return (
-    <div className={styles.loginContainer} onClick={(e) => {
-      if (e.target === e.currentTarget) onClose();
-    }}>
+    <div
+      className={styles.loginContainer}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
       <div className={styles.formContainer} ref={formContainerRef}>
         <img src='/logo.png' alt="Logo" className={styles.logo} />
         <h2>Log In</h2>
@@ -84,10 +145,18 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           </Link>
         </h4>
         <div className={styles.socialsContainer}>
-          <button type="button" className={styles.googleBtn} onClick={() => handleSocialLogin(googleSignIn)}>
+          <button
+            type="button"
+            className={styles.googleBtn}
+            onClick={() => handleSocialLogin(googleSignIn)}
+          >
             <img src='/logos/google.svg' alt='google-icon' className={styles.icon} /> Log in with Google
           </button>
-          <button type="button" className={styles.facebookBtn} onClick={() => handleSocialLogin(facebookSignIn)}>
+          <button
+            type="button"
+            className={styles.facebookBtn}
+            onClick={() => handleSocialLogin(facebookSignIn)}
+          >
             <img src='/logos/facebook.svg' alt='facebook-icon' className={styles.icon} /> Log in with Facebook
           </button>
         </div>
@@ -100,7 +169,7 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <label htmlFor="username">Username or Email</label>
           <input
             id="username"
-            placeholder='Username'
+            placeholder='Username or Email'
             type="text"
             name="username"
             value={username}
@@ -112,7 +181,7 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             <button type="button" className={styles.eyeIcon} onClick={toggleShowPassword}>
               <img
                 src='/eye.png'
-                alt={showPassword ? 'Hide password' : 'Show password'}       
+                alt={showPassword ? 'Hide password' : 'Show password'}
               />
               {showPassword ? 'Hide' : 'Show'}
             </button>

@@ -125,3 +125,17 @@
     width:95%;
     margin: 10px;
 }
+
+.submitButton {
+    background-color: #0070f3; /* Change to your preferred color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.submitButton:hover {
+    background-color: #005bb5; /* Change to a darker shade */
+}

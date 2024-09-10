@@ -1,15 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-// import './UserProfile.css';
 import LandingHeader from "../components/LandingHeader/Header";
 import { getToken } from '../services/auth';
 import { useRouter } from 'next/navigation';
 import styles from './UserProfile.module.css';
 
 interface UserData {
-    username: string;
-    email: string;
     firstName: string;
     lastName: string;
     dob: string;
@@ -23,12 +20,10 @@ interface UserData {
 export default function UserProfile() {
     const router = useRouter();
     const [formData, setFormData] = useState<UserData>({
-        username: '',
-        email: '',
         firstName: '',
         lastName: '',
         dob: '',
-        address: '',
+        address: 'BITS PILANI',
         bloodGroup: '',
         height: '',
         weight: '',
@@ -58,12 +53,10 @@ export default function UserProfile() {
                     setFormData(data);
                 } else if (response.status === 404) {
                     setFormData({
-                        username: '',
-                        email: '',
                         firstName: '',
                         lastName: '',
                         dob: '',
-                        address: '',
+                        address: 'BITS PILANI',
                         bloodGroup: '',
                         height: '',
                         weight: '',
@@ -118,20 +111,22 @@ export default function UserProfile() {
             bloodGroup: formData.bloodGroup || null,
             height: formData.height || null,
             weight: formData.weight || null,
-            profilePhoto:  null,
+            profilePhoto:  null, // Handle profile photo separately if needed
         };
 
         console.log(jsonData);
     
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user-profile`, {
-                method: 'PUT',
+                method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(jsonData),
             });
+            console.log(jsonData);
+            console.log(response);
     
             if (!response.ok) {
                 throw new Error('Failed to update profile');
@@ -144,10 +139,6 @@ export default function UserProfile() {
             alert('An error occurred while updating the profile');
         }
     };
-
-    // if (loading) {
-    //     return <div>Loading...</div>;
-    // }
 
     return (
         <div className={styles.background}>
@@ -233,18 +224,24 @@ export default function UserProfile() {
                                     />
                                 </div>
                             </div>
-                                    {/* <label>Profile Photo</label>
-                                    <input 
-                                        type="file" 
-                                        id="profilePhoto" 
-                                        name="profilePhoto" 
-                                        onChange={handleFileChange}
-                                        style={{backgroundColor:"transparent"}}
-                                    /> */}
+                            {/* Optional Profile Photo */}
+                            {/* <div style={{display:"flex",flexDirection:"column",width:"100%",alignItems:"center"}}>
+                                <label>Profile Photo</label>
+                                <input 
+                                    type="file" 
+                                    id="profilePhoto" 
+                                    name="profilePhoto" 
+                                    onChange={handleFileChange}
+                                    style={{backgroundColor:"transparent"}}
+                                />
+                            </div> */}
+                            <div style={{display:"flex",flexDirection:"column",width:"100%",alignItems:"center"}}>
+                                <button type="submit" className={styles.submitButton}>
+                                    Save Changes
+                                </button>
+                            </div>
                         </form>
                     </div>
-                    
-                    
                 </div>
             </div>
         </div>
