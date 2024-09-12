@@ -59,7 +59,7 @@
   align-items: center;
 }
 
-.googleBtn, .facebookBtn {
+.googleBtn, .facebookBtn, .instagramBtn {
   width: 70%;
   border-radius: 24px;
   margin: 6px;
@@ -79,7 +79,7 @@
   margin-right: 8px;
 }
 
-.googleBtn:hover, .facebookBtn:hover {
+.googleBtn:hover, .facebookBtn:hover, .instagramBtn:hover {
   background-color: #254336;
   cursor: pointer;
   color: white;

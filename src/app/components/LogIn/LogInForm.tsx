@@ -7,6 +7,11 @@ import { googleSignIn, facebookSignIn } from '../../services/firebase'; // Fireb
 import { UserCredential } from 'firebase/auth';
 import styles from './LogInForm.module.css';
 import { setToken } from '@/app/services/auth';
+import InstagramProvider from "next-auth/providers/instagram";
+// import InstaLogIn from '../InstaLogIn';
+
+
+
 
 const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [username, setUsername] = useState('');
@@ -18,6 +23,37 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const formContainerRef = useRef<HTMLDivElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+
+    const handleInstagramLogin = () => {
+        const instagramAuthUrl = `https://api.instagram.com/oauth/authorize?client_id=1256357732041392&redirect_uri=http://localhost:3000/UserDashboard&scope=user_profile&response_type=code`;
+    
+        const width = 500;
+        const height = 600;
+        const left = (window.innerWidth - width) / 2;
+        const top = (window.innerHeight - height) / 2;
+        
+        const popup = window.open(
+          instagramAuthUrl,
+          'instagramLoginPopup',
+          `width=${width},height=${height},top=${top},left=${left}`
+        );
+        
+        // Optional: You can monitor if the popup closes to handle next steps
+if (popup) {
+  const popupInterval = setInterval(() => {
+    if (popup.closed) {
+      clearInterval(popupInterval);
+      console.log('Instagram login popup closed');
+      // Handle any post-popup actions here, e.g., refresh authentication status
+    }
+  }, 1000);
+} else {
+  console.error('Failed to open popup. It might have been blocked by the browser.');
+  // You can provide a fallback mechanism or alert the user here
+}
+}
+
 
   // Close the form if clicking outside the modal
   useEffect(() => {
@@ -76,12 +112,11 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
       const data = await response.json();
 
-
       if (!response.ok) {
         throw new Error(data.message || 'Failed to log in');
       }
 
-      setToken(data.accessToken,data.refreshToken);
+      setToken(data.accessToken, data.refreshToken);
 
       console.log('Login successful:', data);
       router.push('/UserDashboard');
@@ -91,7 +126,7 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     }
   };
 
-  // Handle Google or Facebook login
+  // Handle Google, Facebook, Instagram login
   const handleSocialLogin = async (loginMethod: () => Promise<UserCredential>) => {
     try {
       const result = await loginMethod();
@@ -108,7 +143,6 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         },
         body: JSON.stringify({
           token: idToken,
-          // provider: result.user.providerData[0].providerId, // Identify the provider (Google, Facebook, etc.)
         }),
       });
 
@@ -118,7 +152,7 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         throw new Error(data.message || 'Failed to log in via social login');
       }
 
-      setToken(data.accessToken,data.refreshToken);
+      setToken(data.accessToken, data.refreshToken);
 
       console.log('Social login successful:', data);
       router.push('/UserDashboard');
@@ -158,6 +192,13 @@ const LogInForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             onClick={() => handleSocialLogin(facebookSignIn)}
           >
             <img src='/logos/facebook.svg' alt='facebook-icon' className={styles.icon} /> Log in with Facebook
+          </button>
+          <button
+            type="button"
+            className={styles.instagramBtn} // Add Instagram button style
+            onClick={() => handleInstagramLogin()}
+          >
+            <img src='/logos/instagram.svg' alt='instagram-icon' className={styles.icon} /> Log in with Instagram
           </button>
         </div>
         <div className={styles.orSeparator}>
