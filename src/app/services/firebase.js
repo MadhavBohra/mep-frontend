@@ -21,3 +21,5 @@ const facebookSignIn = () => signInWithPopup(auth, facebookProvider);
 const logout = () => signOut(auth);
 
 export { auth, googleSignIn, facebookSignIn, logout };
+
+
